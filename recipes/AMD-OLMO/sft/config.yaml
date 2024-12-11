@@ -1,0 +1,50 @@
+# Model 정보
+model_name_or_path: /data1/hslim/PycharmProjects/alignment-handbook/cache/hub/models--amd--AMD-OLMo-1B/snapshots/422518a083f87a6811fed4ef28a5729be87d4e95 #need to change
+model_revision: main
+tokenizer_name_or_path: /data1/hslim/PycharmProjects/alignment-handbook/cache/hub/models--amd--AMD-OLMo-1B/snapshots/422518a083f87a6811fed4ef28a5729be87d4e95 # Custom tokenizer with <|im_start|> and <|im_end|> tokens
+torch_dtype: bfloat16
+# use_flash_attention_2: true
+
+# Dataset 바꾸기
+dataset_mixer:
+  /data1/hslim/PycharmProjects/alignment-handbook/cache/datasets/allenai___tulu-v2-sft-mixture/default/0.0.0/6248b175d2ccb5ec7c4aeb22e6d8ee3b21b2c752: 1.0 # 바꿔줘야 함
+
+
+dataset_configs:
+- default
+
+dataset_splits:
+- train
+# test 존재하지 않은 데이터셋
+preprocessing_num_workers: 36
+
+# SFT trainer config
+bf16: true
+do_eval: true
+evaluation_strategy: epoch
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+hub_model_id: amd/AMD-OLMo-1B-sft # need to change
+hub_strategy: every_save
+learning_rate: 2.0e-5 # amd - SFT 단계의 학습률
+log_level: info
+logging_steps: 5
+logging_strategy: steps
+lr_scheduler_type: cosine
+max_seq_length: 4048 # amd-olmo max_seq_length
+max_steps: -1
+num_train_epochs: 3
+output_dir: ~/PycharmProjects/alignment-handbook/data/AMD-OLMo-1B-SFT_Real # 저장 장소
+overwrite_output_dir: true
+per_device_eval_batch_size: 8 # amd-olmo huggingface 참조
+per_device_train_batch_size: 8
+push_to_hub: false
+remove_unused_columns: true
+report_to:
+- tensorboard
+# - wandb
+save_strategy: "no"
+seed: 42
+warmup_ratio: 0.1
